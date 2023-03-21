@@ -16,7 +16,7 @@ o texto *HARD (ls -l).
 directory="$1"
 
 function checkDirectory() {
-    if [[ -d $1 ]]; then
+    if [[ -d "$directory" ]]; then
         return 0
     else
         echo "[ ! ] O diretório $directory não existe."
@@ -32,7 +32,7 @@ function checkArg() {
         echo ""
         return 0
     else
-        checkDirectory $1
+        checkDirectory "$1"
         return 0
     fi
 }
@@ -57,7 +57,7 @@ function getFiles() {
             local num_links=$(ls -l "$file" | awk '{print $2}')
 
             if [[ "$num_links" -gt 1 ]]; then
-                echo "[ ! ] Aviso: O arquivo $file possui $num_links links simbólicos do tipo HARD."
+                echo "[ ! ] Aviso: O arquivo $file possui $num_links links do tipo HARD."
                 echo "      Confira a saída abaixo:"
                 echo "          *HARD $(ls -l $file)"
             fi
