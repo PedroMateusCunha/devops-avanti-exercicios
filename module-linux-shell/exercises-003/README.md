@@ -35,9 +35,6 @@ bash exercises-003.sh -v off -f config-teste.cfg -k debug
 ---
 
 ### Limpando o Ambiente
-Para limpar o ambiente, basta executar o seguinte código:
-
-### Limpando o Ambiente
 Caso queira limpar o ambiente antes de reiniciar a máquina, basta executar o seguinte comando:
 
 ```bash
