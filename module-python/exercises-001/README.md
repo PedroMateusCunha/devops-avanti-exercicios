@@ -87,13 +87,15 @@ Lembrando que cada um dos microsserviços podem ser acessados separadamente ao f
 a requisição diretamente na porta do microsserviço. Por exemplo, se quiser acessar o
 microsserviço de ```search_csv```, basta trocar a porta: http://localhost:5005/search_csv/64260000
 
+**Obs:** certifique-se de ter pesquisado pelo menos algum cep antes, caso queira usar o de Piripiri-PI, faça a requisição para: http://localhost:5000/quest/64260000
+
 ### Verificando o status:
 
 Em cada um dos microsserviços, foi adicionado um espaço para health-check.
 Para visualizar o esses status basta executar em seu terminal preferido, no mesmo diretório do arquivo docker-compose.yml:
 
 ```bash
-$ docker-compose ps | grep -w "healthy"
+$ docker compose ps
 
 NAME                IMAGE               COMMAND                  SERVICE             CREATED             STATUS                 PORTS
 keep-dev            keep:dev            "python3 keep.py"        keep                2 hours ago         Up 2 hours (healthy)   0.0.0.0:5002->5002/tcp, :::5002->5002/tcp
