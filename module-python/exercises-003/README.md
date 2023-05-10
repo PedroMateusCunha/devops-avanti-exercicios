@@ -18,7 +18,7 @@ Esse código foi primeiramente desenvolvido por Craig Richards. Onde fiz altera�
 
 ### Descrição da Abordagem:
 
-Neste exercício foram desenvolvidos dois testes para o microsserviço search_csv. Onde o primeiro realiza um teste ao pesquisar um cep já existente na base de dados e o outro realiza o teste de um cep vazio.
+Neste exercício foi construído um Dockerfile para o código binary_search.py, refatoração de estilo e testes.
 
 ### Preparação do ambiente:
 

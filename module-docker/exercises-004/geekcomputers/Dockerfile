@@ -1,0 +1,14 @@
+FROM python:3.9-slim-buster
+
+ARG APP_NAME
+ARG ENV_NAME
+ARG USER_HOME=/usr/app
+LABEL app=${APP_NAME}
+WORKDIR $USER_HOME
+
+COPY . .
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+CMD [ "python", "binary_search.py" ]
