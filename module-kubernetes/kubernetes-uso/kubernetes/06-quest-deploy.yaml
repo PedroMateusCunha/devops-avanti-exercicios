@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cep-python-quest
+  namespace: cep
+  labels:
+    app: cep-python
+    k8s: cep-python-quest
+    env: test
+spec:
+  selector:
+    matchLabels:
+      k8s: cep-python-quest
+  template:
+    metadata:
+      labels:
+        app: cep-python
+        k8s: cep-python-quest
+        env: test
+    spec:
+      containers:
+      - name: cep-python-quest
+        image: pedromcpimentel/cep-python-base:latest
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        command: ["python3", "quest.py"]
+        ports:
+        - containerPort: 5001
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+        envFrom:
+          - configMapRef:
+              name: cep-cm
+          - secretRef:
+              name: cep-secret
+
