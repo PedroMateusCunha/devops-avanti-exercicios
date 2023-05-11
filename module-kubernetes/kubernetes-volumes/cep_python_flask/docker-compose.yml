@@ -1,0 +1,113 @@
+services:
+  base:
+    container_name: base-${ENV_NAME:-dev}
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        APP_NAME: ${APP_NAME:-cep-python}
+        ENV_NAME: ${ENV_NAME:-dev}
+    image: base:${ENV_NAME:-dev}
+    command: sh -c "exit 0"
+
+  main:
+      container_name: main-${ENV_NAME:-dev}
+      image: base:${ENV_NAME:-dev}
+      ports:
+        - "${MAIN_CONTAINER_PORT:-5000}:${MAIN_CONTAINER_PORT:-5000}"
+      env_file:
+      - .env
+      restart: unless-stopped
+      command: main.py
+      volumes:
+        - ./main.py:/usr/app/main.py
+      healthcheck:
+        test: ["CMD-SHELL", "curl --fail http://main-${ENV_NAME:-dev}:${MAIN_CONTAINER_PORT:-5000}/ || exit 1"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  quest:
+      container_name: quest-${ENV_NAME:-dev}
+      image: base:${ENV_NAME:-dev}
+      ports:
+        - "${QUEST_CONTAINER_PORT:-5001}:${QUEST_CONTAINER_PORT:-5001}"
+      env_file:
+      - .env
+      restart: unless-stopped
+      command: quest.py
+      volumes:
+        - ./quest.py:/usr/app/quest.py
+      healthcheck:
+        test: ["CMD-SHELL", "curl --fail http://quest-${ENV_NAME:-dev}:${QUEST_CONTAINER_PORT:-5001}/ || exit 1"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  keep:
+      container_name: keep-${ENV_NAME:-dev}
+      image: base:${ENV_NAME:-dev}
+      ports:
+        - "${KEEP_CONTAINER_PORT:-5002}:${KEEP_CONTAINER_PORT:-5002}"
+      env_file:
+      - .env
+      restart: unless-stopped
+      command: keep.py
+      volumes:
+        - ./keep.py:/usr/app/keep.py
+      healthcheck:
+        test: ["CMD-SHELL", "curl --fail http://keep-${ENV_NAME:-dev}:${KEEP_CONTAINER_PORT:-5002}/ || exit 1"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  list-csv:
+      container_name: list-csv-${ENV_NAME:-dev}
+      image: base:${ENV_NAME:-dev}
+      ports:
+        - "${LIST_CSV_CONTAINER_PORT:-5003}:${LIST_CSV_CONTAINER_PORT:-5003}"
+      env_file:
+      - .env
+      restart: unless-stopped
+      command: list_csv.py
+      volumes:
+        - ./list_csv.py:/usr/app/list_csv.py
+      healthcheck:
+        test: ["CMD-SHELL", "curl --fail http://list-csv-${ENV_NAME:-dev}:${LIST_CSV_CONTAINER_PORT:-5003}/ || exit 1"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  list-html:
+      container_name: list-html-${ENV_NAME:-dev}
+      image: base:${ENV_NAME:-dev}
+      ports:
+        - "${LIST_HTML_CONTAINER_PORT:-5004}:${LIST_HTML_CONTAINER_PORT:-5004}"
+      env_file:
+      - .env
+      restart: unless-stopped
+      command: list_html.py
+      volumes:
+        - ./list_html.py:/usr/app/list_html.py
+      healthcheck:
+        test: ["CMD-SHELL", "curl --fail http://list-html-${ENV_NAME:-dev}:${LIST_HTML_CONTAINER_PORT:-5004}/ || exit 1"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  search-csv:
+      container_name: search-csv-${ENV_NAME:-dev}
+      image: base:${ENV_NAME:-dev}
+      ports:
+        - "${SEARCH_CSV_CONTAINER_PORT:-5005}:${SEARCH_CSV_CONTAINER_PORT:-5005}"
+      env_file:
+      - .env
+      restart: unless-stopped
+      command: search_csv.py
+      volumes:
+        - ./search_csv.py:/usr/app/search_csv.py
+      healthcheck:
+        test: ["CMD-SHELL", "curl --fail http://search-csv-${ENV_NAME:-dev}:${SEARCH_CSV_CONTAINER_PORT:-5005}/ || exit 1"]
+        interval: 30s
+        timeout: 10s
+        retries: 5

@@ -10,7 +10,6 @@
     1. exponha o Service do módulo main;
     1. verifique se os serviços funcionam.
 - Teste cada uma das condições, salve prints, arquive.
-
 ---
 
 ### Considerações:
@@ -19,7 +18,7 @@ O código cep-python-flask foi originalmente desenvolvido pelo professor Cicero 
 
 ### Pré-requisitos para o ambiente
 
-É necessário que tenha exista a imagem base no seu Docker Hub privado de acordo com o script de build-n-deploy na seção dos módulos Docker.
+É necessário que tenha exista a imagem base no seu Docker Hub privado de acordo com o script de build-n-push na seção dos módulos Docker.
 
 ### Descrição da Abordagem:
 
@@ -37,7 +36,7 @@ kubectl apply -f kubernetes/
 
 - Host: 192.168.49.2 (IP do Minikube)
 - Porta: 5000
-- URL: http://localhost:5000
+- URL: http://192.168.49.2:5000
 
 Para conseguir acessar a aplicação, basta acessar alguma das rotas abaixo:
 
