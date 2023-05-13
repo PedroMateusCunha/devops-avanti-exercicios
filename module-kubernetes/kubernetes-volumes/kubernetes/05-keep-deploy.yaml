@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cep-python-keep
+  namespace: cep
+  labels:
+    app: cep-python
+    k8s: cep-python-keep
+    env: test
+spec:
+  selector:
+    matchLabels:
+      k8s: cep-python-keep
+  template:
+    metadata:
+      labels:
+        app: cep-python
+        k8s: cep-python-keep
+        env: test
+    spec:
+      containers:
+      - name: cep-python-keep
+        image: pedromcpimentel/cep-python-base:latest
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        command: ["python3", "keep.py"]
+        ports:
+        - containerPort: 5002
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+        envFrom:
+          - configMapRef:
+              name: cep-cm
+          - secretRef:
+              name: cep-secret
+

@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cep-python-list-csv
+  namespace: cep
+  labels:
+    app: cep-python
+    k8s: cep-python-list-csv
+    env: test
+spec:
+  selector:
+    matchLabels:
+      k8s: cep-python-list-csv
+  template:
+    metadata:
+      labels:
+        app: cep-python
+        k8s: cep-python-list-csv
+        env: test
+    spec:
+      containers:
+      - name: cep-python-list-csv
+        imagePullPolicy: Always
+        image: pedromcpimentel/cep-python-base:latest
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        command: ["python3", "list_csv.py"]
+        ports:
+        - containerPort: 5003
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+        envFrom:
+          - configMapRef:
+              name: cep-cm
+          - secretRef:
+              name: cep-secret
+        volumeMounts:
+          - name: csv-volume
+            mountPath: /usr/app/csv/
+        
+      - name: csv-logs
+        image: busybox
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        command:
+          - "sh"
+          - "-c"
+          - "while sleep 300; do 
+              echo -e '\nCSV Content:';
+              cat /usr/app/csv/postal_codes.csv;
+            done"
+        volumeMounts:
+          - name: csv-volume
+            mountPath: /usr/app/csv/
+      
+      - name: json-logs
+        image: busybox
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        command:
+          - "sh"
+          - "-c"
+          - "while sleep 300; do 
+              echo -e '\nJSON Content:';
+              cat /usr/app/csv/postal_codes.json;
+            done"
+        volumeMounts:
+          - name: csv-volume
+            mountPath: /usr/app/csv/
+
+      volumes:
+        - name: csv-volume
+          emptyDir: {}

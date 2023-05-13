@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cep-cm
+  namespace: cep
+  labels:
+    app: cep-python
+    k8s: cep-python
+    env: test
+data:
+  VIACEP_CONTAINER_NAME: viacep.com.br
+  MAIN_CONTAINER_NAME: cep-python-main-svc
+  QUEST_CONTAINER_NAME: cep-python-quest-svc
+  KEEP_CONTAINER_NAME: cep-python-keep-svc
+  LIST_CSV_CONTAINER_NAME: cep-python-list-csv-svc
+  LIST_HTML_CONTAINER_NAME: cep-python-list-html-svc
+  SEARCH_CSV_CONTAINER_NAME: cep-python-search-csv-svc

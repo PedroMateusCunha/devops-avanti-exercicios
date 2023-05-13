@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cep-python-list-csv
+  namespace: cep
+  labels:
+    app: cep-python
+    k8s: cep-python-list-csv
+    env: test
+spec:
+  selector:
+    matchLabels:
+      k8s: cep-python-list-csv
+  template:
+    metadata:
+      labels:
+        app: cep-python
+        k8s: cep-python-list-csv
+        env: test
+    spec:
+      containers:
+      - name: cep-python-list-csv
+        image: pedromcpimentel/cep-python-base:latest
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        command: ["python3", "list_csv.py"]
+        ports:
+        - containerPort: 5003
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+        envFrom:
+          - configMapRef:
+              name: cep-cm
+          - secretRef:
+              name: cep-secret
